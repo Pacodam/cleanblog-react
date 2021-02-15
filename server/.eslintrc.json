@@ -1,0 +1,30 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error", {
+        "endOfLine":"auto"
+    }]
+  },
+
+  "env": {
+    "node": "true"
+  }
+}
+
+// {
+//     "env": {
+//         "node": "true"
+//     },
+//     "extends": [
+//         "airbnb-base"
+//     ],
+
+//     "rules": {
+//         "no-console" : "off",
+//           "linebreak-style": 0
+//     }
+
+// }
+
+
