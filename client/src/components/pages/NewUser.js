@@ -116,7 +116,7 @@ export default class NewUser extends Component {
                 <div id="success"></div>
                 <button
                   type="submit"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   id="sendMessageButton"
                 >
                   Register

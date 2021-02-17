@@ -1,9 +1,32 @@
 import React, { Component } from "react";
 import Header from "../Header";
 import { Editor } from "react-draft-wysiwyg";
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default class NewPost extends Component {
+  constructor() {
+    super();
+    this.state = {
+      title: "",
+      body: "",
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onEditorStateChange = this.onEditorStateChange.bind(this);
+  }
+
+  handleChange(e) {
+    console.log(e.target.value);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+  }
+
+  onEditorStateChange(e) {
+    console.log(e.target.value);
+  }
+
   render() {
     const name = this.props.location.pathname.replace("/", "");
     return (
@@ -12,11 +35,7 @@ export default class NewPost extends Component {
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-10 mx-auto">
-              <form
-                action="/posts/store"
-                method="POST"
-                enctype="multipart/form-data"
-              >
+              <form onSubmit={this.handleSubmit} encType="multipart/form-data">
                 <div className="control-group">
                   <div className="form-group floating-label-form-group controls">
                     <label>Title</label>
@@ -27,14 +46,16 @@ export default class NewPost extends Component {
                       id="title"
                       name="title"
                       value=""
+                      onChange={this.handleChange}
                       required
                     />
                   </div>
                 </div>
+                <br></br>
                 <div className="control-group">
                   <div className="form-group floating-label-form-group controls">
                     <label>Description</label>
-                    
+
                     <Editor
                       editorState=""
                       toolbarClassName="toolbarClassName"
@@ -42,26 +63,7 @@ export default class NewPost extends Component {
                       editorClassName="editorClassName"
                       onEditorStateChange={this.onEditorStateChange}
                     />
-                    {/*  <script>
-                  $("#body").summernote({
-                    placeholder: "Description",
-                    tabsize: 2,
-                    height: 200,
-                  });
-                </script> */}
-                  </div>
-                </div>
-                <div className="control-group">
-                  <div className="form-group floating-label-form-group controls">
-                    <label>Image</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="image"
-                      name="image"
-                      value=""
-                      required
-                    />
+                
                   </div>
                 </div>
                 <br />

@@ -5,8 +5,8 @@ class TextInput extends Component{
       
        const { placeholder, id, value, onChange, name, required } = this.props;
        return(
-        <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
+        <div className="control-group">
+        <div className="form-group floating-label-form-group controls">
           <input
             type="text"
             className="form-control"
@@ -25,11 +25,10 @@ class TextInput extends Component{
 
 class PasswordInput extends Component{
   render(){
-     
       const { placeholder, id, value, onChange, name, required } = this.props;
       return(
-       <div class="control-group">
-       <div class="form-group floating-label-form-group controls">
+       <div className="control-group">
+       <div className="form-group floating-label-form-group controls">
          <input
            type="text"
            className="form-control"

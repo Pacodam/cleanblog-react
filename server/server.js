@@ -73,6 +73,7 @@ require('./app/routes/blogpost.routes')(app);
 require('./app/routes/newUser.routes')(app);
 require('./app/routes/user.routes.js')(app);
 require('./app/routes/generic.routes.js')(app);
+require('./app/routes/auth.routes')(app);
 // require('./app/routes/deleted_issue.routes')(app);
 
 const PORT = process.env.API_SERVER_PORT || 8000;

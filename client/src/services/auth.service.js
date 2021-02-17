@@ -1,54 +1,84 @@
 // TAKE A LOOK at this way of organize request api services
 import axios from 'axios';
 
-import {
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    REGISTER_SUCCESS,
-    REGISTER_FAIL,
-    AUTH_SUCCESS,
-    AUTH_FAIL,
-    LOGOUT_SUCCESS,
-    IS_LOADING,
-  } from "./types";
+const API_URL = 'http://localhost:8000/api/auth';
 
-
-  axios.defaults.baseURL = "http://localhost:8000";
-
-  //check if user is already logged in
-  export const isAuth = () => (dispatch) => {
-
-    axios
-    .get("api/users/authchecker", {withCredentials: true})
-    .then((res) => 
-    dispatch({
-        type: AUTH_SUCCESS,
-        payload: res.data,
+class AuthService {
+  login(username, password) {
+    return axios
+    .post(API_URL + 'signin', {
+      username,
+      password,
     })
-    )
-    .catch((err) => {
-        dispatch({
-            type: AUTH_FAIL,
-        });
-    });
+    .then(response => {
+      if(response.data.token) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+      }
 
+      return response.data;
+    })
   }
 
-  //Logout User and Destroy session
-export const logout = () => (dispatch) => {
+  logout() {
+    localStorage.removeItem('user');
+  }
 
-    axios
-    .delete("/api/users/logout", { withCredentials: true })
-    .then((res) =>
-      dispatch({
-        type: LOGOUT_SUCCESS,
-      })
-    )
-    .catch((err) => {
-      console.log(err);
-    });
-
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem('user'));;
+  }
 }
+
+
+
+//TODO this is for sessions auth, not at the moment
+// import {
+//     LOGIN_SUCCESS,
+//     LOGIN_FAIL,
+//     REGISTER_SUCCESS,
+//     REGISTER_FAIL,
+//     AUTH_SUCCESS,
+//     AUTH_FAIL,
+//     LOGOUT_SUCCESS,
+//     IS_LOADING,
+//   } from "./types";
+
+
+//   axios.defaults.baseURL = "http://localhost:8000";
+
+//   //check if user is already logged in
+//   export const isAuth = () => (dispatch) => {
+
+//     axios
+//     .get("api/users/authchecker", {withCredentials: true})
+//     .then((res) => 
+//     dispatch({
+//         type: AUTH_SUCCESS,
+//         payload: res.data,
+//     })
+//     )
+//     .catch((err) => {
+//         dispatch({
+//             type: AUTH_FAIL,
+//         });
+//     });
+
+//   }
+
+//   //Logout User and Destroy session
+// export const logout = () => (dispatch) => {
+
+//     axios
+//     .delete("/api/users/logout", { withCredentials: true })
+//     .then((res) =>
+//       dispatch({
+//         type: LOGOUT_SUCCESS,
+//       })
+//     )
+//     .catch((err) => {
+//       console.log(err);
+//     });
+
+// }
 
 //Register New User
 // export const register = ({ name, email, password }) => (dispatch) => {

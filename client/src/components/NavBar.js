@@ -8,14 +8,16 @@ import {isAuth} from '../services/auth.service';
 
 //<a className="nav-link" href={`"${nav.href}"`}>
 export default class Nav extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      userLogged: false,
+      isAuth: false,
     };
+    
     this.renderNavs = this.renderNavs.bind(this);
   }
 
+  // TODO map navs
 //   renderNavs() {
 //     return pages.map((nav, index) => (
 //       <div>
@@ -30,6 +32,19 @@ export default class Nav extends Component {
 //     )
 //     )
 //   }
+
+componentDidMount() {
+  console.log("did mount navbar")
+ this.setState({ isAuth: this.props.isAuth});
+  console.log(this.props.isAuth)
+}
+
+componentDidUpdate(prevProps) {
+  if (prevProps !== this.props) {
+    this.setState({ isAuth: this.props.isAuth});
+  }
+}
+
 
   // TODO : warning
   // index.js:1 Warning: Using Maps as children is not supported. Use an array of keyed ReactElements instead.
@@ -63,7 +78,7 @@ export default class Nav extends Component {
         </NavLink>
       </li>
     );
-    if (!this.state.userLogged) {
+    if (!this.state.isAuth) {
       pagesMap.set(
         <li className="nav-item" key={4}>
           <NavLink exact to={pages.new_user.href}>
@@ -73,13 +88,13 @@ export default class Nav extends Component {
       );
       pagesMap.set(
         <li className="nav-item" key={5}>
-          <NavLink exact to={pages.login.href}>
+          <NavLink onClick={this.handleAuth} exact to={pages.login.href}>
             {pages.login.name}
           </NavLink>
         </li>
       );
     }
-    if (this.state.userLogged) {
+    if (this.state.isAuth) {
       pagesMap.set(
         <li className="nav-item" key={6}>
           <NavLink exact to={pages.new_post.href}>
@@ -99,7 +114,11 @@ export default class Nav extends Component {
   }
 
   render() {
-    console.log("auth ", isAuth());
+    // TODO: without centralized state (i.e Redux) how manage isauth?
+    // maybe is better at this point use jwt or cookies instead of sessions?
+    //console.log("auth ", isAuth());
+    console.log("renderrrr")
+   
     return (
       <nav
         className="navbar navbar-expand-lg navbar-light fixed-top"

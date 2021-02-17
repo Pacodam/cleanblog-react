@@ -5,7 +5,6 @@ const db = require('../models');
 
 const User = db.users;
 
-// login 
 exports.findByUsernameAndPassword = (req, res) => {
   // const { username, password } = req.body;
   const username = req.body.username;
@@ -16,11 +15,11 @@ exports.findByUsernameAndPassword = (req, res) => {
       console.log(user);
       bcrypt.compare(password, user.password, (error, same) => {
         if (same) {
-          // store user session
-          // res.send(user);
-          const sessUser = { id: user.id, username: user.username, photo: user.photo };
-          req.session.user = sessUser; // Auto saves session data in mongo store
-          res.json({ msg: ' Logged In Successfully', sessUser }); // sends cookie with sessionID automatically in response
+          // TODO store user session : commented because is needed a way to manage without Redux
+          //   const sessUser = { id: user.id, username: user.username, photo: user.photo };
+          //   req.session.user = sessUser; // Auto saves session data in mongo store
+          //   res.json({ msg: ' Logged In Successfully', sessUser }); // sends cookie with sessionID automatically in response
+          res.send(user);
         } else {
           res.status(404).send({ message: 'Wrong password' });
         }

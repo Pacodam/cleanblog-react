@@ -5,9 +5,9 @@ import UserDataService from "../../services/user.service";
 import { Redirect } from "react-router-dom";
 
 export default class Login extends Component {
-  constructor() {
-    super();
-    this.state = { username: "", password: "", redirect: false, };
+  constructor(props) {
+    super(props);
+    this.state = { username: "", password: "", redirect: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -18,23 +18,29 @@ export default class Login extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    const user = { username: this.state.username, password: this.state.password};
+    const user = {
+      username: this.state.username,
+      password: this.state.password,
+    };
 
-    await UserDataService.findByUsernameAndPassword(user)
-    .then((response) => {
-      console.log(response);
-      this.setState({redirect: true});
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-
+    await UserDataService.login(user)
+      .then((response) => {
+        console.log(response);
+        this.setState({ redirect: true });
+        this.props.isAuthenticated();
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 
   render() {
+    //console.log("in login", this.props.handleAuth)
+    let name = "login";
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
 
-    if(this.state.redirect){ return <Redirect to="/" />};
-    const name = this.props.location.pathname.replace("/", "");
     return (
       <div>
         <Header name={name} />
