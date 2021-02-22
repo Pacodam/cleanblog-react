@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../Header";
 import { TextInput, PasswordInput } from "../form_components/FormInputs";
 import UserDataService from "../../services/user.service";
+import AuthService from '../../services/auth.service';
 import { Redirect } from "react-router-dom";
 
 export default class Login extends Component {
@@ -18,20 +19,33 @@ export default class Login extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    const user = {
-      username: this.state.username,
-      password: this.state.password,
-    };
+   
+     const username =  this.state.username;
+     const password = this.state.password;
+  
 
-    await UserDataService.login(user)
+    await AuthService.login(username, password)
       .then((response) => {
-        console.log(response);
         this.setState({ redirect: true });
         this.props.isAuthenticated();
       })
       .catch((err) => {
         console.log(err.message);
       });
+    // evt.preventDefault();
+    // const user = {
+    //   username: this.state.username,
+    //   password: this.state.password,
+    // };
+
+    // await AuthService.login(user)
+    //   .then((response) => {
+    //     this.setState({ redirect: true });
+    //     this.props.isAuthenticated();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
   }
 
   render() {

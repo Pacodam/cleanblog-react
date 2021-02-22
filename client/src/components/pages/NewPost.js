@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Header from "../Header";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import AuthService from '../../services/auth.service';
+import ControlledEditor from '../form_components/ControlledEditor';
 
 export default class NewPost extends Component {
   constructor() {
@@ -9,10 +11,16 @@ export default class NewPost extends Component {
     this.state = {
       title: "",
       body: "",
+      user: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
+  }
+
+  componentDidMount() {
+   this.setState({user : AuthService.getCurrentUser()})
+
   }
 
   handleChange(e) {
@@ -31,7 +39,7 @@ export default class NewPost extends Component {
     const name = this.props.location.pathname.replace("/", "");
     return (
       <div>
-        <Header name={name} />
+        <Header name={name} photo={this.state.user.photo} />
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-10 mx-auto">

@@ -13,7 +13,7 @@ const NotFound = () => <h1>Page Not Found</h1>;
 
 export default class Contents extends React.Component {
   render() {
-    console.log(this.props);
+   
     return (
       <Switch>
         <Redirect exact from="/" to="/home" />

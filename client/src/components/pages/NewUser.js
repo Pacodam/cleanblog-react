@@ -24,7 +24,6 @@ export default class NewUser extends Component {
 
   handlePhoto(evt) {
     //TODO https://dev.to/yosraskhiri/make-an-image-preview-in-react-js-301f
-    console.log("targetPho ", evt.target.files);
     this.setState({ photo: evt.target.files[0] });
   }
 
@@ -43,21 +42,17 @@ export default class NewUser extends Component {
     })
       .then((response) => {
         //handle success
-        console.log(response);
         //this.setState({ username: "", password: "", photo: null, imageKey: Date.now() });
         this.setState({ redirect: true });
       })
       .catch(function (response) {
         //handle error
-        console.log(response);
       });
 
     // axios.post('http://localhost:8000/api/blogposts/', formData)
     //        .then(res => {
-    //           console.log(res);
     //        })
     //        .catch(err => {
-    //           console.log(err);
     //        });
   }
 

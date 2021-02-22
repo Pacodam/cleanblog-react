@@ -1,5 +1,6 @@
 /* eslint-disable */
 //TODO review this code
+//TODO look at todos related to create user in blogpost.controller
 const router = require('express').Router();
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
@@ -11,7 +12,7 @@ module.exports = (app) => {
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, 'images');
+        cb(null, '../images');
     },
     filename: function(req, file, cb) {   
         cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));

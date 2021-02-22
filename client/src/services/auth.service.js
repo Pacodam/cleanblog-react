@@ -1,34 +1,38 @@
 // TAKE A LOOK at this way of organize request api services
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:8000/api/auth';
+const API_URL = "http://localhost:8000/api/auth";
 
 class AuthService {
   login(username, password) {
     return axios
-    .post(API_URL + 'signin', {
-      username,
-      password,
-    })
-    .then(response => {
-      if(response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-      }
-
-      return response.data;
-    })
+      .post(API_URL + "/signin", {
+        username,
+        password,
+      })
+      .then((response) => {
+        if (response.data.accessToken) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        //console.log(response.data);
+        return response.data;
+      });
   }
 
   logout() {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(localStorage.getItem("user"));
+  }
+
+  validateUserToken() {
+    //compare jwt token in server
   }
 }
 
-
+export default new AuthService();
 
 //TODO this is for sessions auth, not at the moment
 // import {
@@ -42,7 +46,6 @@ class AuthService {
 //     IS_LOADING,
 //   } from "./types";
 
-
 //   axios.defaults.baseURL = "http://localhost:8000";
 
 //   //check if user is already logged in
@@ -50,7 +53,7 @@ class AuthService {
 
 //     axios
 //     .get("api/users/authchecker", {withCredentials: true})
-//     .then((res) => 
+//     .then((res) =>
 //     dispatch({
 //         type: AUTH_SUCCESS,
 //         payload: res.data,
@@ -88,10 +91,10 @@ class AuthService {
 //         "Content-Type": "application/json"
 //       }
 //     };
-  
+
 //     // Request body
 //     const body = JSON.stringify({ name, email, password });
-  
+
 //     axios
 //       .post("/api/users/register", body, headers)
 //       .then((res) =>{
@@ -106,7 +109,7 @@ class AuthService {
 //         dispatch({ type: IS_LOADING })
 //       });
 //   };
-  
+
 //   //Login User
 //   export const login = ({ email, password }) => (dispatch) => {
 //     // Headers
@@ -115,10 +118,10 @@ class AuthService {
 //         "Content-Type": "application/json"
 //       }
 //     };
-  
+
 //     // Request body
 //     const body = JSON.stringify({ email, password });
-  
+
 //     axios
 //       .post("/api/users/login", body, headers)
 //       .then((res) => {
@@ -138,4 +141,3 @@ class AuthService {
 //         dispatch({ type: IS_LOADING })
 //       });
 //   };
-  

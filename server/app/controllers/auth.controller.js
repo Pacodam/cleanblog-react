@@ -63,7 +63,7 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  
+  console.log('hola', req.body);
   const password = req.body.password;
   console.log(User);
   User.findOne({
@@ -76,17 +76,29 @@ exports.signin = (req, res) => {
     if (!user) {
       return res.status(404).send({ message: 'User Not found.' });
     }
-    console.log("user", user);
+    console.log('user', user);
 
     // const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
     bcrypt.compare(password, user.password, (error, same) => {
       if (same) {
+        console.log(same);
         // TODO store user session : commented because is needed a way to manage without Redux
+        const token = jwt.sign({ id: user.id }, config.secret, {
+          expiresIn: 86400, // 24 hours
+        });
+        console.log(token);
+        res.status(200).send({
+          id: user.id,
+          username: user.username,
+          photo: user.photo,
+          accessToken: token,
+        });
         //   const sessUser = { id: user.id, username: user.username, photo: user.photo };
         //   req.session.user = sessUser; // Auto saves session data in mongo store
         //   res.json({ msg: ' Logged In Successfully', sessUser }); // sends cookie with sessionID automatically in response
         // res.send(user);
       } else {
+        console.log("wrong pass")
         res.status(404).send({ accessToken: null, message: 'Wrong password' });
       }
     });
@@ -97,15 +109,5 @@ exports.signin = (req, res) => {
     //     message: 'Invalid Password!',
     //   });
     // }
-
-    const token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 86400, // 24 hours
-    });
-
-    res.status(200).send({
-      id: user.id,
-      username: user.username,
-      accessToken: token,
-    });
   });
 };

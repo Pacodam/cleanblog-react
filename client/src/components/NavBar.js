@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 
 import "./NavBar.css";
 import { pages } from "../libs/pagesInfo";
-import {isAuth} from '../services/auth.service';
+import AuthService from '../services/auth.service';
 
 
 //<a className="nav-link" href={`"${nav.href}"`}>
@@ -15,13 +15,13 @@ export default class Nav extends Component {
     };
     
     this.renderNavs = this.renderNavs.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   // TODO map navs
 //   renderNavs() {
 //     return pages.map((nav, index) => (
 //       <div>
-//     {console.log(nav)}
 //       <li className="nav-item" key={index}>
 //       <NavLink exact to={pages.home.href}>
 //         {pages.home.name}
@@ -34,9 +34,7 @@ export default class Nav extends Component {
 //   }
 
 componentDidMount() {
-  console.log("did mount navbar")
  this.setState({ isAuth: this.props.isAuth});
-  console.log(this.props.isAuth)
 }
 
 componentDidUpdate(prevProps) {
@@ -45,6 +43,10 @@ componentDidUpdate(prevProps) {
   }
 }
 
+handleRedirect() {
+  AuthService.logout();
+  this.props.isAuthenticated();
+}
 
   // TODO : warning
   // index.js:1 Warning: Using Maps as children is not supported. Use an array of keyed ReactElements instead.
@@ -64,13 +66,13 @@ componentDidUpdate(prevProps) {
         </NavLink>
       </li>
     );
-    pagesMap.set(
+   {/*} pagesMap.set(
       <li className="nav-item" key={2}>
         <NavLink exact to={pages.sample_post.href}>
           {pages.sample_post.name}
         </NavLink>
       </li>
-    );
+   ); */}
     pagesMap.set(
       <li className="nav-item" key={3}>
         <NavLink exact to={pages.contact.href}>
@@ -104,9 +106,8 @@ componentDidUpdate(prevProps) {
       );
       pagesMap.set(
         <li className="nav-item" key={7}>
-          <NavLink exact to={pages.logout.href}>
-            {pages.logout.name}
-          </NavLink>
+        <NavLink  onClick={this.handleRedirect} exact to={pages.home.href} >
+        {pages.logout.name}</NavLink>
         </li>
       );
     }
@@ -116,8 +117,6 @@ componentDidUpdate(prevProps) {
   render() {
     // TODO: without centralized state (i.e Redux) how manage isauth?
     // maybe is better at this point use jwt or cookies instead of sessions?
-    //console.log("auth ", isAuth());
-    console.log("renderrrr")
    
     return (
       <nav

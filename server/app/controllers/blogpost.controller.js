@@ -36,6 +36,7 @@ exports.findOne = (req, res) => {
 
 // TODO this should go to user.controller. Add email and duplicated username, mail, https://bezkoder.com/node-js-mongodb-auth-jwt/
 //TODO bcrypt hashing outside model
+//TODO the image filesystem question
 exports.create = (req, res) => {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -45,6 +46,8 @@ exports.create = (req, res) => {
       cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
     },
   });
+
+  console.log(storage);
 
   const fileFilter = (req, file, cb) => {
     const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
