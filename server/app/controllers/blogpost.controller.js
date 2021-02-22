@@ -34,48 +34,65 @@ exports.findOne = (req, res) => {
     });
 };
 
+exports.create = (req, res) => {
+  console.log(req.body);
+  const post = {
+    title: req.body.title,
+    body: req.body.body,
+    userId: req.body.id,
+    datePosted: new Date(),
+  };
+
+  const newPost = new BlogPost(post);
+
+  newPost
+    .save()
+    .then(() => res.json('Post added'))
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+};
+
 // TODO this should go to user.controller. Add email and duplicated username, mail, https://bezkoder.com/node-js-mongodb-auth-jwt/
 //TODO bcrypt hashing outside model
 //TODO the image filesystem question
-exports.create = (req, res) => {
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'images');
-    },
-    filename: function (req, file, cb) {
-      cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
-    },
-  });
+// exports.create = (req, res) => {
+//   const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, 'images');
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
+//     },
+//   });
 
-  console.log(storage);
+//   console.log(storage);
 
-  const fileFilter = (req, file, cb) => {
-    const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-    if (allowedFileTypes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(null, false);
-    }
-  };
+//   const fileFilter = (req, file, cb) => {
+//     const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+//     if (allowedFileTypes.includes(file.mimetype)) {
+//       cb(null, true);
+//     } else {
+//       cb(null, false);
+//     }
+//   };
 
-  const upload = multer({ storage, fileFilter }).single('photo');
+//   const upload = multer({ storage, fileFilter }).single('photo');
 
-  // const upload = multer({     storage: storage }).single('featuredImage');
+//   // const upload = multer({     storage: storage }).single('featuredImage');
 
-  const username = req.body.username;
-  const password = req.body.password;
-  const photo = req.file.filename;
+//   const username = req.body.username;
+//   const password = req.body.password;
+//   const photo = req.file.filename;
 
-  const newUserData = {
-    username,
-    password,
-    photo,
-  };
+//   const newUserData = {
+//     username,
+//     password,
+//     photo,
+//   };
 
-  const newUser = new User(newUserData);
+//   const newUser = new User(newUserData);
 
-  newUser
-    .save()
-    .then(() => res.json('User Added'))
-    .catch((err) => res.status(400).json('Error: ' + err));
-};
+//   newUser
+//     .save()
+//     .then(() => res.json('User Added'))
+//     .catch((err) => res.status(400).json('Error: ' + err));
+// };

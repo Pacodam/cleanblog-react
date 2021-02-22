@@ -17,6 +17,8 @@ module.exports = (app) => {
 
   router.get('/:id', blogposts.findOne);
 
+  router.post('/', blogposts.create);
+
   app.use('/api/blogposts', router);
 
   //  router.get("/count", issues.countIssues);

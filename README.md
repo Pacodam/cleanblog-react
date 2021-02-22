@@ -4,11 +4,15 @@ The third method, and in my opinion the most secure, and the topic of this tutor
 
 TODOS
 
+- Crear nuevo post (editor wysywyg)
+
+- Al mostrar la lista de mensajes, mostrar solo el titulo, user, fecha y mostrar el body cuando se produzca un mouseEnter.
+
 -Autenticacion contra jwt en servidor en cada página, cuando no hay permisos para acceder a esa url, así indicarlo.
 
--Mostrar mensajes (alerts o toasts) cuando se produzcan eventos.
+-Mostrar mensajes (alerts o toasts) cuando se produzcan eventos, por ejemplo al subir un nuevo post, o cuando hay un problema con el password introducido, etc.
 
-- Crear nuevo post (editor wysywyg)
+
 
 - conseguir configurar Gmail OAuth para recibir mensajes desde Contact
 
