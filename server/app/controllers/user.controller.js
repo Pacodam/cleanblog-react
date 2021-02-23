@@ -30,6 +30,7 @@ exports.findByUsernameAndPassword = (req, res) => {
   });
 };
 
+
 exports.logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) throw (err, res.clearCookie('session-id')); // clears cookie containing expired sessionID
@@ -45,6 +46,21 @@ exports.logout = (req, res) => {
 //     res.send('logged out successfully');
 //   });
 // };
+
+exports.findOne = (req, res) => {
+  User.findById(req.params.id)
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({ message: 'User not found' });
+      } else res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Error retrieving user',
+        error: err,
+      });
+    });
+};
 
 exports.authchecker = (req, res) => {
   const sessUser = req.session.user;

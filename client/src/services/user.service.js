@@ -11,6 +11,9 @@ class UserDataService {
     // login(data) {
     //     return http.post('/users', data);
     //  }
+    get(id) {
+        return http.get(`/users/${id}`);
+    }
 }
 
 export default new UserDataService();

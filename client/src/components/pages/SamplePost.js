@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import BackgroundImage from "../../theme/img/post-bg.jpg";
 import PostDataService from "../../services/post.service";
-import parse from 'html-react-parser';
+import UserDataService from "../../services/user.service";
+import parse from "html-react-parser";
 
 export default class SamplePost extends Component {
   constructor() {
     super();
     this.state = {
       post: "",
+      username: "",
     };
 
     this.loadData = this.loadData.bind(this);
+    this.findUser = this.findUser.bind(this);
   }
 
   componentDidMount() {
@@ -27,6 +30,10 @@ export default class SamplePost extends Component {
     await PostDataService.get(id)
       .then((response) => {
         const post = response.data;
+
+        this.findUser(post.userId);
+        //const username =  this.findUser(post.userId);
+        //console.log("in" ,username);
         this.setState({ post: post });
       })
       .catch((e) => {
@@ -34,13 +41,23 @@ export default class SamplePost extends Component {
       });
   }
 
-  render() {
+  findUser(userId) {
+    console.log(userId);
+    UserDataService.get(userId)
+      .then((response) => {
+        this.setState({ username: response.data.username });
+        //return response.data.username;
+      })
+      .catch((response) => {
+        this.setState({ username: "undefined" });
+      });
+  }
 
-    if(typeof this.state.post === "string"){
+  render() {
+    if (typeof this.state.post === "string") {
       return null;
     }
-    const { post } = this.state;
-  
+    const { post, username } = this.state;
 
     const header = (
       <header
@@ -56,7 +73,11 @@ export default class SamplePost extends Component {
                 {/*<h2 className="subheading">{post.body}</h2>*/}
                 <span className="meta">
                   Posted by
-                  <a href="#">{post.postedBy}</a>
+                  <a href="#">
+                    {"\u00A0"}
+                    {username}
+                    {"\u00A0"}
+                  </a>
                   {new Date(post.datePosted).toDateString()}
                 </span>
               </div>
@@ -70,9 +91,7 @@ export default class SamplePost extends Component {
       <article>
         <div className="container">
           <div className="row">
-            <div className="col-lg-8 col-md-10 mx-auto">
-              {parse(post.body)}
-            </div>
+            <div className="col-lg-8 col-md-10 mx-auto">{parse(post.body)}</div>
           </div>
         </div>
       </article>

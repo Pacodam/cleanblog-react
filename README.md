@@ -4,7 +4,9 @@ The third method, and in my opinion the most secure, and the topic of this tutor
 
 TODOS
 
-- Crear nuevo post (editor wysywyg)
+
+
+-Mostrar correctamente los emojis en la visualizacion del post
 
 - Al mostrar la lista de mensajes, mostrar solo el titulo, user, fecha y mostrar el body cuando se produzca un mouseEnter.
 
@@ -13,18 +15,13 @@ TODOS
 -Mostrar mensajes (alerts o toasts) cuando se produzcan eventos, por ejemplo al subir un nuevo post, o cuando hay un problema con el password introducido, etc.
 
 
-
-- conseguir configurar Gmail OAuth para recibir mensajes desde Contact
+- conseguir configurar Gmail OAuth para recibir mensajes en el buzon de entrada desde Contact
 
 -al registrarse, verificacion de que no exista un usuario con ese username o email (incluir email). Login con gmail o facebook estaría bien.
 
 -paginacion en la lista de posts de la página inicial, ¿incluir un filtro buscador exhaustivo por fecha, usuarios...?. Crear varios cientos de posts aleatorios para probar. 
 
 -El menú desplegable se queda abierto tras haber clicado en alguna opcion, y deberia cerrarse automáticamente. 
-
--DONE El navLink sample post no tiene sentido que aparezca
-
--DONE cargar cada imagen en su header correspondiente
 
 -crear user roles, para que exista usuarios tipo admin con una funcionalidad extra a definir (por ejemplo, poder editar o eliminar post, usuarios, etc)
 
@@ -52,6 +49,10 @@ TODOS
 
 -Documentar el README convenientemente.
 
+- DONE Crear nuevo post (editor wysywyg)
+-DONE El navLink sample post no tiene sentido que aparezca
+
+-DONE cargar cada imagen en su header correspondiente
 
 
 AVANZADO(deployment)

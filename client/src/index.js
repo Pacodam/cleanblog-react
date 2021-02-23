@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import 'react-bootstrap';
 import './theme/css/clean-blog.min.css';
 import './theme/css/clean-blog.css';
 
