@@ -3,6 +3,7 @@ import BackgroundImage from "../../theme/img/post-bg.jpg";
 import PostDataService from "../../services/post.service";
 import UserDataService from "../../services/user.service";
 import parse from "html-react-parser";
+import { emojify } from "node-emoji";
 
 export default class SamplePost extends Component {
   constructor() {
@@ -91,7 +92,7 @@ export default class SamplePost extends Component {
       <article>
         <div className="container">
           <div className="row">
-            <div className="col-lg-8 col-md-10 mx-auto">{parse(post.body)}</div>
+            <div className="col-lg-8 col-md-10 mx-auto">{parse(emojify(post.body))}</div>
           </div>
         </div>
       </article>

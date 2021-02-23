@@ -8,7 +8,6 @@ TODOS
 
 -Mostrar correctamente los emojis en la visualizacion del post
 
-- Al mostrar la lista de mensajes, mostrar solo el titulo, user, fecha y mostrar el body cuando se produzca un mouseEnter.
 
 -Autenticacion contra jwt en servidor en cada página, cuando no hay permisos para acceder a esa url, así indicarlo.
 
@@ -51,6 +50,7 @@ TODOS
 
 - DONE Crear nuevo post (editor wysywyg)
 -DONE El navLink sample post no tiene sentido que aparezca
+- DONE Al mostrar la lista de mensajes, mostrar solo el titulo, user, fecha y mostrar el body cuando se produzca un mouseEnter.
 
 -DONE cargar cada imagen en su header correspondiente
 

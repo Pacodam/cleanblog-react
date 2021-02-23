@@ -6,7 +6,7 @@ import PostDataService from "../../services/post.service";
 import parse from "html-react-parser";
 import UserDataService from "../../services/user.service";
 import { OverlayTrigger, Overlay, Popover, Button } from "react-bootstrap";
-import { createPopper } from "@popperjs/core";
+import { emojify } from 'node-emoji';
 //href in cleanblog: <a href="/post/<%= blogposts[i]._id%>">
 
 export default class Home extends Component {
@@ -98,11 +98,11 @@ export default class Home extends Component {
     //console.log(this.state.posts);
     let postsMap = this.state.posts.map((post, index) => (
       <OverlayTrigger
-        trigger="hover"
+        trigger={["hover","hover"]}
         placement="bottom"
         overlay={
           <Popover>
-            <Popover.Content>{parse((post.body).substr(0,40))}</Popover.Content>
+            <Popover.Content>{parse(emojify((post.body).substr(0,40)))}</Popover.Content>
           </Popover>
         }
       >
