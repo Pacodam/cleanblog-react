@@ -21,5 +21,7 @@ const router = require('express').Router();
 module.exports = (app) => {
   router.post('/signin', controller.signin);
 
+  router.post('/verifyToken', controller.verifyToken);
+
   app.use('/api/auth', router);
 }

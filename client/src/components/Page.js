@@ -13,13 +13,28 @@ export default class Page extends Component{
         this.isAuthenticated = this.isAuthenticated.bind(this);
     }
 
-    //for now, just look if there is a "user" in localstorage... should be done better
-    isAuthenticated() {
-       AuthService.getCurrentUser() !== null
-        ?  this.setState({isAuth : true})
-        : this.setState({isAuth: false})
-
+    componentDidMount() {
+        this.isAuthenticated();
     }
+
+    isAuthenticated() {
+        AuthService.verifyValidJWTToken() 
+         .then((response) => {
+           this.setState({ isAuth: response.data.validToken});
+         })
+         .catch((error) => {
+           console.log(error);
+         })
+        }
+    
+
+    // //for now, just look if there is a "user" in localstorage... should be done better
+    // isAuthenticated() {
+    //    AuthService.getCurrentUser() !== null
+    //     ?  this.setState({isAuth : true})
+    //     : this.setState({isAuth: false})
+
+    // }
   
     render() {
         return(

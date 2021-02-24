@@ -8,6 +8,7 @@ import NewUser from "./pages/NewUser";
 import Contact from "./pages/Contact";
 import SamplePost from "./pages/SamplePost";
 import Login from "./pages/Login";
+import Profile from './pages/Profile';
 
 const NotFound = () => <h1>Page Not Found</h1>;
 
@@ -22,6 +23,7 @@ export default class Contents extends React.Component {
         <Route path="/new_post" component={NewPost} />
         <Route path="/new_user" component={NewUser} />
         <Route path="/contact" component={Contact} />
+        <Route path="/profile" component={Profile} />
         <Route path="/logn" component={Login} />
         <Route path="/login" render={props => <Login navTo="login" isAuthenticated= {this.props.isAuthenticated} />} />
         <Route path="/sample_post/:id" component={SamplePost} />

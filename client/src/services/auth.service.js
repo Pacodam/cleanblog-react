@@ -1,5 +1,6 @@
 // TAKE A LOOK at this way of organize request api services
 import axios from "axios";
+import http from '../services/http.common';
 
 const API_URL = "http://localhost:8000/api/auth";
 
@@ -27,9 +28,23 @@ class AuthService {
     return JSON.parse(localStorage.getItem("user"));
   }
 
-  validateUserToken() {
-    //compare jwt token in server
-  }
+//    verifyValidJWTToken() {
+//      axios.post(API_URL + '/verifyToken', localStorage.getItem('user'))
+//     .then((response) => {
+//       console.log(response.data.validToken);
+//       return response.data.validToken;
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     })
+// }
+
+
+verifyValidJWTToken() {
+  const data = JSON.parse(localStorage.getItem('user'));
+  return axios.post(API_URL + '/verifyToken', data);
+}
+
 }
 
 export default new AuthService();

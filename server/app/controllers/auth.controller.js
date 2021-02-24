@@ -6,6 +6,9 @@ const db = require('../models');
 
 const User = db.users;
 
+// TODO: watch jwt managing best practices
+let token = '';
+
 exports.signup = (req, res) => {
   const user = new User({
     username: req.body.username,
@@ -82,8 +85,8 @@ exports.signin = (req, res) => {
     bcrypt.compare(password, user.password, (error, same) => {
       if (same) {
         console.log(same);
-        // TODO store user session : commented because is needed a way to manage without Redux
-        const token = jwt.sign({ id: user.id }, config.secret, {
+        // TODO store user session
+        token = jwt.sign({ id: user.id }, config.secret, {
           expiresIn: 86400, // 24 hours
         });
         console.log(token);
@@ -98,7 +101,7 @@ exports.signin = (req, res) => {
         //   res.json({ msg: ' Logged In Successfully', sessUser }); // sends cookie with sessionID automatically in response
         // res.send(user);
       } else {
-        console.log("wrong pass")
+        console.log('wrong pass');
         res.status(404).send({ accessToken: null, message: 'Wrong password' });
       }
     });
@@ -110,4 +113,11 @@ exports.signin = (req, res) => {
     //   });
     // }
   });
+};
+
+exports.verifyToken = (req, res) => {
+  // console.log('token ',token)
+  // console.log('body', req.body.accessToken)
+  // console.log(req.body.accessToken === token)
+  res.send({ validToken: req.body.accessToken === token });
 };

@@ -106,6 +106,13 @@ handleRedirect() {
       );
       pagesMap.set(
         <li className="nav-item" key={7}>
+          <NavLink exact to={pages.profile.href}>
+            {pages.profile.name}
+          </NavLink>
+        </li>
+      );
+      pagesMap.set(
+        <li className="nav-item" key={8}>
         <NavLink  onClick={this.handleRedirect} exact to={pages.home.href} >
         {pages.logout.name}</NavLink>
         </li>

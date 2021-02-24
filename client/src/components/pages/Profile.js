@@ -6,14 +6,16 @@ import PostDataService from "../../services/post.service";
 import parse from "html-react-parser";
 import UserDataService from "../../services/user.service";
 import { OverlayTrigger, Overlay, Popover, Button } from "react-bootstrap";
-import { emojify } from 'node-emoji';
+import { emojify } from "node-emoji";
+import AuthService from "../../services/auth.service";
 //href in cleanblog: <a href="/post/<%= blogposts[i]._id%>">
 
-export default class Home extends Component {
+export default class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      posts: "",
+      posts: [],
+      isAuth: false,
     };
     this.loadData = this.loadData.bind(this);
     this.findUser = this.findUser.bind(this);
@@ -22,7 +24,18 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    this.loadData();
+    this.isAuthenticated();
+    if (this.state.isAuth) this.loadData();
+  }
+
+  isAuthenticated() {
+    AuthService.verifyValidJWTToken()
+      .then((response) => {
+        this.setState({ isAuth: response.data.validToken });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   componentDidUpdate(prevProps) {
@@ -91,19 +104,23 @@ export default class Home extends Component {
     //     </p>
     //   </div>
     // ));
+
     //TODO better way to not render until data is fetched
-    if (typeof this.state.posts === "string") {
-      return null;
-    }
+    console.log(this.state.posts.length);
+    // if (this.state.posts.length === 0) {
+    //   return null;
+    // }
     //console.log(this.state.posts);
     let postsMap = this.state.posts.map((post, index) => (
       <OverlayTrigger
-      key={index}
-        trigger={["hover","hover"]}
+        key={index}
+        trigger={["hover", "hover"]}
         placement="bottom"
         overlay={
           <Popover>
-            <Popover.Content>{parse(emojify((post.body).substr(0,40)))}</Popover.Content>
+            <Popover.Content>
+              {parse(emojify(post.body.substr(0, 40)))}
+            </Popover.Content>
           </Popover>
         }
       >
@@ -128,18 +145,25 @@ export default class Home extends Component {
     const name = this.props.location.pathname.replace("/", "");
     return (
       <div>
-        <Header name={name} />
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8 col-md-10 mx-auto">{postsMap}</div>
-          </div>
+      {this.state.isAuth}holaaaaaa
+        {this.state.isAuth ? (
+          <div>
+            <Header name={name} />
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-8 col-md-10 mx-auto">{postsMap}</div>
+              </div>
 
-          <div className="clearfix">
-            <a className="btn btn-primary float-right" href="#">
-              Older Posts &rarr;
-            </a>
+              <div className="clearfix">
+                <a className="btn btn-primary float-right" href="#">
+                  Older Posts &rarr;
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (
+          <h1>Please register or login</h1>
+        )}
       </div>
     );
   }

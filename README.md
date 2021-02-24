@@ -6,13 +6,16 @@ TODOS
 
 
 
--Mostrar correctamente los emojis en la visualizacion del post
 
+-Resolver warning en homepage relativo a findDOMNode
+
+-variable configuration stuff: dotenv
 
 -Autenticacion contra jwt en servidor en cada página, cuando no hay permisos para acceder a esa url, así indicarlo.
 
 -Mostrar mensajes (alerts o toasts) cuando se produzcan eventos, por ejemplo al subir un nuevo post, o cuando hay un problema con el password introducido, etc.
 
+-banners publicitarios 
 
 - conseguir configurar Gmail OAuth para recibir mensajes en el buzon de entrada desde Contact
 
@@ -29,6 +32,9 @@ TODOS
 -Edicion de la imagen subida por el usuario (al estilo facebook por ejemplo) para recortarla o redimensionarla antes de crear la nueva cuenta. Previsualizacion de la misma, edicion, y que esa imagen se muestra en la página perfil de usuario. La posibilidad de que el nuevo post tambien tenga su imagen de fondo.
 
 -Perfil de usuario: se muestran sus mensajes, su imagen en el header, puede editar sus mensajes o eliminarlos. Eliminar cuenta.
+
+-En create react app no se pueden subir imagenes fuera de /src. Buscar free storages en la nube para almacenar las imágenes. https://cloudinary.com/ o si no hacerlo
+en una carpeta del proyecto. (Explorar ambas alternativas) 
 
 -Crear un cookie legal para que el usuario acepte.
 
@@ -53,10 +59,11 @@ TODOS
 - DONE Al mostrar la lista de mensajes, mostrar solo el titulo, user, fecha y mostrar el body cuando se produzca un mouseEnter.
 
 -DONE cargar cada imagen en su header correspondiente
+- DONE Mostrar correctamente los emojis en la visualizacion del post
 
 
 AVANZADO(deployment)
 
 Crear webpack prod, dev...
 Crear docker
-Intentar desplegar el proyecto
+desplegar el proyecto

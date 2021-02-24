@@ -8,6 +8,7 @@ const pages = {
     new_post: { href: "/new_post", name: "new post",  headerTitle: "Create new post", headerSubtitle: " ",requiresLogin: true, img: 'post-bg.jpg', },
     logout: { href: "/logout", name: "logout",  headerTitle: " ", headerSubtitle: " ", requiresLogin: true,  },
     login: { href: "/login", name: "login",  headerTitle: "Login", headerSubtitle: "Enter your name and password.", requiresLogin: false, img: 'home-bg.jpg', },
+    profile: { href: '/profile', name: 'profile', headerTitle: 'Profile', headerSubtitle:'', requiresLogin: true, img: 'home-bg-jpg',}
   
 };
 
