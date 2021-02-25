@@ -8,7 +8,7 @@ let path = require('path');
 let User = require('../models/user.model');
 
 module.exports = (app) => {
-    app.use('/api/blogposts', router);
+    app.use('/api/new-user', router);
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -31,17 +31,23 @@ const fileFilter = (req, file, cb) => {
 let upload = multer({ storage, fileFilter });
 
 router.route('/').post(upload.single('photo'), (req, res) => {
+    console.log("api")
     const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
     const photo = req.file.filename;
+    const created = new Date();
 
     const newUserData = {
         username,
+        email,
         password,
-        photo
+        photo,
+        created
     }
 
     const newUser = new User(newUserData);
+    console.log(newUser);
 
     newUser.save()
            .then(() => res.json('User Added'))

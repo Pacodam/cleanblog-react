@@ -35,7 +35,6 @@ exports.findOne = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  // console.log(req.body);
   const post = {
     title: req.body.title,
     body: req.body.body,

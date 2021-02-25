@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 class TextInput extends Component{
    render(){
       
-       const { placeholder, id, value, onChange, name, required } = this.props;
+       const { placeholder, type, id, value, onChange, name, required } = this.props;
        return(
         <div className="control-group">
         <div className="form-group floating-label-form-group controls">
           <input
-            type="text"
+            type={type}
             className="form-control"
             placeholder={placeholder}
             name={name}
@@ -30,7 +30,7 @@ class PasswordInput extends Component{
        <div className="control-group">
        <div className="form-group floating-label-form-group controls">
          <input
-           type="text"
+           type="password"
            className="form-control"
            placeholder={placeholder}
            name={name}

@@ -11,7 +11,9 @@ TODOS
 
 -variable configuration stuff: dotenv
 
--Autenticacion contra jwt en servidor en cada página, cuando no hay permisos para acceder a esa url, así indicarlo.
+- DONE Autenticacion contra jwt en servidor en cada página, cuando no hay permisos para acceder a esa url, así indicarlo.
+
+-Explorar REDUX para manejo de estado. Se hace necesario para autenticacion de páginas, etcétera.
 
 -Mostrar mensajes (alerts o toasts) cuando se produzcan eventos, por ejemplo al subir un nuevo post, o cuando hay un problema con el password introducido, etc.
 

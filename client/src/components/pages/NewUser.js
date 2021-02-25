@@ -8,18 +8,28 @@ import { FileUploader } from "../form_components/FileUploader";
 import PostDataService from "../../services/post.service";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
 export default class NewUser extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", password: "", photo: null, redirect: false };
+    this.state = {
+      username: "",
+      email: "",
+      password1: "",
+      password2: "",
+      photo: null,
+      redirect: false,
+      showPasswordAlert: false,
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePhoto = this.handlePhoto.bind(this);
   }
 
   handleChange(evt) {
-    this.setState({ [evt.target.name]: evt.target.value });
+   
+    this.setState({ [evt.target.name]: evt.target.value, showPasswordAlert: false, });
   }
 
   handlePhoto(evt) {
@@ -29,14 +39,23 @@ export default class NewUser extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    const formData = new FormData();
+    if (this.state.password1 !== this.state.password2) {
+      console.log("Passwords don't match!");
+      this.setState({ showPasswordAlert: true});
+      return;
+    }
+    console.log(this.state);
+    let formData = new FormData();
     formData.append("photo", this.state.photo);
     formData.append("username", this.state.username);
-    formData.append("password", this.state.password);
+    formData.append("email", this.state.email);
+    formData.append("password", this.state.password1);
+
+    console.log(formData);
 
     await axios({
       method: "post",
-      url: "http://localhost:8000/api/blogposts",
+      url: "http://localhost:8000/api/new-user",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
@@ -46,6 +65,7 @@ export default class NewUser extends Component {
         this.setState({ redirect: true });
       })
       .catch(function (response) {
+        console.log("error");
         //handle error
       });
 
@@ -69,6 +89,10 @@ export default class NewUser extends Component {
 
   // }
 
+  setPasswordShow(show){
+    this.setState({ showPasswordAlert: show});
+  }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/login" />;
@@ -84,21 +108,43 @@ export default class NewUser extends Component {
               <form onSubmit={this.handleSubmit} encType="multipart/form-data">
                 <TextInput
                   placeholder="User name"
+                  type="text"
                   value={this.state.username}
                   name="username"
                   id="username"
                   onChange={this.handleChange}
                   required={true}
                 />
-                <PasswordInput
-                  placeholder="Password"
-                  value={this.state.password}
-                  name="password"
-                  id="password"
+                <br></br>
+                <TextInput
+                  placeholder="Email"
+                  type="email"
+                  value={this.state.email}
+                  name="email"
+                  id="email"
                   onChange={this.handleChange}
                   required={true}
                 />
-
+                <br></br>
+                <PasswordInput
+                  placeholder="Password"
+                  value={this.state.password1}
+                  name="password1"
+                  id="password1"
+                  onChange={this.handleChange}
+                  required={true}
+                />
+                <br></br>
+                <PasswordInput
+                  placeholder="Repeat Password"
+                  value={this.state.password2}
+                  name="password2"
+                  id="password2"
+                  onChange={this.handleChange}
+                  required={true}
+                />
+                <Alert show={this.state.showPasswordAlert} variant="danger" onClose={() => this.setPasswordShow(false)} dismissible>Passwords don't match!</Alert>
+                <br></br>
                 <input
                   type="file"
                   accept=".png, .jpg, .jpeg"
@@ -109,6 +155,7 @@ export default class NewUser extends Component {
                 />
                 <br></br>
                 <div id="success"></div>
+                <br></br>
                 <button
                   type="submit"
                   className="btn btn-primary"

@@ -18,8 +18,18 @@ const UserSchema = new Schema({
     required: true,
   },
 
+  email: {
+    type: String,
+    required: true,
+  },
+
   photo: {
     type: String,
+  },
+
+  created: {
+    type: Date,
+    default: new Date(),
   },
 });
 
