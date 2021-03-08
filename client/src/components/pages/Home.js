@@ -100,7 +100,7 @@ export default class Home extends Component {
       <OverlayTrigger
       key={index}
         trigger={["hover","hover"]}
-        placement="bottom"
+        placement="left"
         overlay={
           <Popover>
             <Popover.Content>{parse(emojify((post.body).substr(0,40)))}</Popover.Content>

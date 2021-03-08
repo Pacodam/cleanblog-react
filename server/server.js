@@ -1,83 +1,65 @@
-// npm cache clean -f
-// rm -rf node_modules
-// npm i
-
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-// trying express sessions
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
 
 const app = express();
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+// const path = require('path');
+// const { auth2 } = require("./middleware/auth");
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-};
-app.use(cors(corsOptions));
-app.use(express.json()); // ?
+// configurations
+const config = require('./config');
+const dbConnect = require('./config/db');
 
-// const fileServerMiddleware = express.static("public");
-// app.use("/", fileServerMiddleware);
-//  const fs = require('fs');
+// routes
+const postRoutes = require('./routes/posts');
+const userRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
+// const passport = require('./config/passport');
 
-//  parse requests of content-type -application/json
-app.use(bodyParser.json());
-//  parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
-//  console.log(db); ¿how is accessing url?
-const db = require('./app/models');
-
-db.mongoose
-  .connect(db.url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => console.log('connected to the database!'))
-  .catch((err) => {
-    console.log('cannot connect to the database!', err);
-    process.exit();
-  });
-
-// Setting up connect-mongodb-session store
-const mongoDBstore = new MongoDBStore({
-  uri: db.url,
-  collection: 'mySessions',
-});
-
-// Express-Session
+// use MIddlewares
 app.use(
-  session({
-    name: 'COOKIE_NAME', // name to be put in "key" field in postman etc
-    secret: "PAPAYA",
-    resave: true,
-    saveUninitialized: false,
-    store: mongoDBstore,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 3,
-      sameSite: false,
-      secure: false,
-    }
+  cors({
+    origin: config.CLIENT_URL,
+    credentials: true,
   })
 );
+
+app.use((req, res, next) => {
+  // Prevents auth leaks when going back in browser
+  res.set('Cache-Control', 'no-store');
+  next();
+});
+
+// app.use(passport.initialize());
+app.use(helmet());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 //  simple route
 app.get('/', (req, res) => {
   res.json({ message: 'welcome to CleanBlog application.' });
 });
 
-require('./app/routes/user.routes.js')(app);
-require('./app/routes/blogpost.routes')(app);
-require('./app/routes/newUser.routes')(app);
-require('./app/routes/generic.routes.js')(app);
-require('./app/routes/auth.routes')(app);
-// require('./app/routes/deleted_issue.routes')(app);
+// use routes
+app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
-const PORT = process.env.API_SERVER_PORT || 8000;
+// For Deploying client & api on one server
+// if (process.env.NODE_ENV === "production") {
+//     app.use(express.static(path.resolve(__dirname, "../", "client", "build")));
+//     app.get("*", (req, res) => {
+//       res.sendFile(
+//         path.resolve(__dirname, "../", "client", "build", "index.html")
+//       );
+//     });
+//   }
 
-app.listen(PORT, () => {
-  console.log(`API server started on port ${PORT}`);
+// TODO config.Port crashes
+app.listen(8000, () => {
+  console.log(`Server is running on port ${config.PORT}`);
+  dbConnect();
 });

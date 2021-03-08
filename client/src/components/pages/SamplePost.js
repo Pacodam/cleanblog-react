@@ -14,7 +14,7 @@ export default class SamplePost extends Component {
     };
 
     this.loadData = this.loadData.bind(this);
-    this.findUser = this.findUser.bind(this);
+    // this.findUser = this.findUser.bind(this);
   }
 
   componentDidMount() {
@@ -31,10 +31,7 @@ export default class SamplePost extends Component {
     await PostDataService.get(id)
       .then((response) => {
         const post = response.data;
-
-        this.findUser(post.userId);
-        //const username =  this.findUser(post.userId);
-        //console.log("in" ,username);
+        console.log(post);
         this.setState({ post: post });
       })
       .catch((e) => {
@@ -42,17 +39,17 @@ export default class SamplePost extends Component {
       });
   }
 
-  findUser(userId) {
-    console.log(userId);
-    UserDataService.get(userId)
-      .then((response) => {
-        this.setState({ username: response.data.username });
-        //return response.data.username;
-      })
-      .catch((response) => {
-        this.setState({ username: "undefined" });
-      });
-  }
+  // findUser(userId) {
+  //   console.log(userId);
+  //   UserDataService.get(userId)
+  //     .then((response) => {
+  //       this.setState({ username: response.data.username });
+  //       //return response.data.username;
+  //     })
+  //     .catch((response) => {
+  //       this.setState({ username: "undefined" });
+  //     });
+  // }
 
   render() {
     if (typeof this.state.post === "string") {

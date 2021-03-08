@@ -55,7 +55,7 @@ export default class NewUser extends Component {
 
     await axios({
       method: "post",
-      url: "http://localhost:8000/api/new-user",
+      url: "http://localhost:8000/api/users",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })

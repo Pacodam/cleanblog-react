@@ -5,15 +5,19 @@ import http from "./http.common.js";
 class PostDataService {
 
     getAll() {
-      return http.get("/blogposts");
+      return http.get("/posts");
     }
 
     get(id) {
-      return http.get(`/blogposts/${id}`);
+      return http.get(`/posts/${id}`);
+    }
+
+    getByUserId(userId) {
+      return http.get(`/posts/user-posts/${userId}`);
     }
 
     post(data) {
-      return http.post('/blogposts', data);
+      return http.post('/posts', data);
     }
 }
 

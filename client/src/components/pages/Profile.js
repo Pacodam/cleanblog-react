@@ -15,7 +15,8 @@ export default class Profile extends Component {
     super();
     this.state = {
       posts: [],
-      isAuth: false,
+      isAuth: true,
+      user: '',
     };
     this.loadData = this.loadData.bind(this);
     this.findUser = this.findUser.bind(this);
@@ -24,8 +25,13 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
-    this.isAuthenticated();
-    if (this.state.isAuth) this.loadData();
+    //this.isAuthenticated();
+    const user = AuthService.getCurrentUser();
+    console.log(user);
+    if (user !== null){ 
+        // this.setState({ user });
+         this.loadData(user);
+    }
   }
 
   isAuthenticated() {
@@ -62,12 +68,14 @@ export default class Profile extends Component {
       });
   }
 
-  async loadData() {
-    await PostDataService.getAll()
+  async loadData(user) {
+    await PostDataService.getByUserId(user.id)
       .then((response) => {
         if (response.data) {
+          console.log(response.data);
           this.setState({
             posts: response.data,
+            user,
           });
         }
       })
@@ -106,11 +114,11 @@ export default class Profile extends Component {
     // ));
 
     //TODO better way to not render until data is fetched
-    console.log(this.state.posts.length);
+    //console.log(this.state.posts.length);
     // if (this.state.posts.length === 0) {
     //   return null;
     // }
-    //console.log(this.state.posts);
+    console.log("posts rend", this.state.posts);
     let postsMap = this.state.posts.map((post, index) => (
       <OverlayTrigger
         key={index}
@@ -133,7 +141,7 @@ export default class Profile extends Component {
             Posted by
             <a href="#">
               {"\u00A0"}
-              {this.findUser(post.userId)}
+              {/*this.findUser(post.userId)*/}
               {"\u00A0"}
             </a>
             {new Date(post.datePosted).toDateString()}
@@ -145,7 +153,7 @@ export default class Profile extends Component {
     const name = this.props.location.pathname.replace("/", "");
     return (
       <div>
-      {this.state.isAuth}holaaaaaa
+      {this.state.isAuth}
         {this.state.isAuth ? (
           <div>
             <Header name={name} />
